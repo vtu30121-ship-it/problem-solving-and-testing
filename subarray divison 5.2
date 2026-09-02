@@ -1,0 +1,58 @@
+import java.io.*;
+import java.util.*;
+
+public class Solution {
+
+    public static int birthday(List<Integer> s, int d, int m) {
+        int count = 0;
+        int windowSum = 0;
+
+        // Calculate the sum of the first window
+        for (int i = 0; i < m; i++) {
+            windowSum += s.get(i);
+        }
+
+        // Check the first window
+        if (windowSum == d) {
+            count++;
+        }
+
+        // Slide the window across the array
+        for (int i = m; i < s.size(); i++) {
+            windowSum += s.get(i);
+            windowSum -= s.get(i - m);
+
+            if (windowSum == d) {
+                count++;
+            }
+        }
+
+        return count;
+    }
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        // Number of squares
+        int n = Integer.parseInt(br.readLine().trim());
+
+        // Chocolate squares
+        String[] input = br.readLine().trim().split(" ");
+        List<Integer> s = new ArrayList<>();
+
+        for (String value : input) {
+            s.add(Integer.parseInt(value));
+        }
+
+        // Birth day and birth month
+        String[] dm = br.readLine().trim().split(" ");
+        int d = Integer.parseInt(dm[0]);
+        int m = Integer.parseInt(dm[1]);
+
+        // Get and print the answer
+        int result = birthday(s, d, m);
+        System.out.println(result);
+
+        br.close();
+    }
+}
